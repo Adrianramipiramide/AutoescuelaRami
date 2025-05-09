@@ -1,0 +1,189 @@
+package org.example;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+public class GUII {
+
+    public  static void menuEntrada(){
+
+        JFrame frame = new JFrame("Autoescuela Rami");
+        frame.setSize(800,500);
+        frame.setLayout(new GridLayout(4,3,5,5));
+
+
+        frame.getContentPane().setBackground(new Color(230, 240, 255)); // fondo azul claro
+
+        JLabel etiqueta = new JLabel("Bienvenido a la autoescuela", JLabel.CENTER);
+        etiqueta.setFont(new Font("SansSerif", Font.BOLD, 18));
+        etiqueta.setForeground(new Color(25, 25, 112)); // azul oscuro
+
+
+        JButton botonHacerTest = new JButton("Hacer Test");
+        JButton botonPresentarseExamenTeorico = new JButton("Presentarse a examen");
+        JButton botonInformePeriodico = new JButton("Ver Informe Periodico");
+        JButton botonReservarClasePractica = new JButton("Reservar clase práctica");
+        JButton botonMostrarClasesReservadas = new JButton("Mostrar clases pendientes");
+        JButton botonMostrarClasesRealizadas = new JButton("Mostrar clases realizadas");
+        JButton botonCrearUsuario = new JButton("Crear Usuario");
+        JButton botonMostrarUsuarios = new JButton("Mostrar Usuarios");
+        JButton botonEliminarUsuario = new JButton("Eliminar Usuario");
+
+
+        Font fuenteBoton = new Font("SansSerif", Font.PLAIN, 14);
+        Color fondoBoton = new Color(70, 130, 180); // azul acero
+        Color textoBoton = Color.WHITE;
+
+        JButton[] botones = {
+                botonHacerTest, botonPresentarseExamenTeorico, botonInformePeriodico,
+                botonReservarClasePractica, botonMostrarClasesReservadas, botonMostrarClasesRealizadas,
+                botonCrearUsuario, botonMostrarUsuarios, botonEliminarUsuario
+        };
+
+        for (JButton boton : botones) {
+            boton.setFont(fuenteBoton);
+            boton.setBackground(fondoBoton);
+            boton.setForeground(textoBoton);
+            boton.setFocusPainted(false);
+            boton.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+        }
+
+
+        frame.add(new JLabel(""));
+        frame.add(etiqueta);
+        frame.add(new JLabel(""));
+        frame.add(botonCrearUsuario);
+        frame.add(botonHacerTest);
+        frame.add(botonPresentarseExamenTeorico);
+        frame.add(botonInformePeriodico);
+        frame.add(botonReservarClasePractica);
+        frame.add(botonMostrarClasesReservadas);
+        frame.add(botonMostrarClasesRealizadas);
+        frame.add(botonMostrarUsuarios);
+        frame.add(botonEliminarUsuario);
+        frame.setVisible(true);
+
+
+        botonCrearUsuario.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    if(botonCrearUsuario.isEnabled()){
+                        frame.setVisible(false);
+                    }
+                    GUII.crearUsuarioMenu();
+            }
+        });
+
+        botonMostrarUsuarios.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostrarUsuarios();
+                frame.setVisible(false);
+            }
+        });
+
+        botonPresentarseExamenTeorico.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int dia = (int) (Math.random()*30);
+                int mes = (int) (Math.random()*12);
+
+                int year = (int) (Math.random()*2050);
+                while (year < 2024){
+                    year = (int) (Math.random()*2050);
+                }
+
+                System.out.println("Tu examen es el dia " + dia + " del mes " + mes + " del año " + year);
+            }
+        });
+
+        botonHacerTest.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(botonHacerTest.isEnabled()){
+                    frame.setVisible(false);
+                }
+                GUII.generarTest();
+                BDConection.BDHacerTest();
+            }
+        });
+    }
+
+    public static void crearUsuarioMenu(){
+        JFrame frame = new JFrame("Crear Usuario");
+        frame.setSize(800,500);
+        frame.setLayout(new GridLayout(6,2,5,5));
+
+        JLabel nombre = new JLabel("Nombre");
+        JLabel apellido = new JLabel("Apellido");
+        JLabel telefono = new JLabel("Teléfono");
+        JLabel id = new JLabel("ID");
+        JLabel fechaNacimiento = new JLabel("Fecha Nacimiento");
+
+        JTextField nombreT = new JTextField();
+        JTextField apellidoT = new JTextField();
+        JTextField telefonoT = new JTextField();
+        JTextField idT = new JTextField();
+        JTextField fechaNacimientoT = new JTextField();
+
+        JButton enviar = new JButton("Enviar");
+        JButton volver = new JButton("Volver");
+
+        frame.add(nombre);
+        frame.add(nombreT);
+        frame.add(apellido);
+        frame.add(apellidoT);
+        frame.add(telefono);
+        frame.add(telefonoT);
+        frame.add(id);
+        frame.add(idT);
+        frame.add(fechaNacimiento);
+        frame.add(fechaNacimientoT);
+        frame.add(volver);
+        frame.add(enviar);
+        frame.setVisible(true);
+
+        enviar.addActionListener((ActionEvent e) -> {
+            try {
+                int idNum = Integer.parseInt(idT.getText());
+                String nombreStr = nombreT.getText();
+                String apellidoStr = apellidoT.getText();
+                String telefonoStr = telefonoT.getText();
+                LocalDate fecha = LocalDate.parse(fechaNacimientoT.getText());
+
+                Persona.listaUsuarios.add(new Alumno(idNum, nombreStr, apellidoStr, telefonoStr, fecha));
+                System.out.println("Usuario agregado: " + Persona.listaUsuarios);
+
+                BDConection.conectarConBDAddUsuario(idNum,nombreStr,apellidoStr,telefonoStr);
+
+            }catch(NumberFormatException o){
+                System.out.println("Error con las conversiones de numeros");
+           }
+        } );
+
+        volver.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.setVisible(false);
+                GUII.menuEntrada();
+            }
+        });
+    }
+
+
+    public static void mostrarUsuarios(){
+
+
+        BDConection.BDmostrarUsuarios();
+
+
+    }
+
+    public static void generarTest(){
+        BDConection.BDHacerTest();
+    }
+}
