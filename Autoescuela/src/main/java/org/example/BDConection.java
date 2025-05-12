@@ -186,4 +186,32 @@ public class BDConection {
 
 
     }
+    public static void eliminarUser(int id){
+
+        try{
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://database-1.cpwoqsmqg94x.us-east-1.rds.amazonaws.com/Autoescuela", "admin", "ARfed099");
+            String  consulta = "delete from Persona where id = " + id;
+
+            PreparedStatement ps = conexion.prepareStatement(consulta);
+            ps.executeUpdate();
+            System.out.println("El usuario con el id " + id + " ha sido eliminado");
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean inicioSesionBD(int id, String nombre){
+        try{
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://database-1.cpwoqsmqg94x.us-east-1.rds.amazonaws.com/Autoescuela", "admin", "ARfed099");
+            String  consulta = "Select * from Persona where nombre  = ' " + nombre + " ' " ;
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+
+
+        return true;
+    }
 }
