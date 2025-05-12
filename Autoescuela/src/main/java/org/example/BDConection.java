@@ -202,16 +202,32 @@ public class BDConection {
     }
 
     public static boolean inicioSesionBD(int id, String nombre){
+        boolean respuesta = false;
+
         try{
             Connection conexion = DriverManager.getConnection("jdbc:mysql://database-1.cpwoqsmqg94x.us-east-1.rds.amazonaws.com/Autoescuela", "admin", "ARfed099");
-            String  consulta = "Select * from Persona where nombre  = ' " + nombre + " ' " ;
+            String  consulta = "SELECT * FROM Persona WHERE nombre = ? AND id = ?" ;
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setString(1, nombre);
+            statement.setInt(2, id);
+
+            ResultSet resultSet = statement.executeQuery();
+
+
+            if (resultSet.next()) {
+                // Imprimir los datos de la persona encontrada
+                System.out.println("ID: " + resultSet.getInt("id"));
+                System.out.println("Nombre: " + resultSet.getString("nombre"));
+                // Agrega aquí más columnas si las hay
+
+                respuesta = true;
+            } else {
+                System.out.println("No se encontró ningún usuario con ese ID y nombre.");
+            }
 
         }catch (SQLException e){
             e.printStackTrace();
         }
-
-
-
-        return true;
+       return respuesta;
     }
 }

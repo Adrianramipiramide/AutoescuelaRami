@@ -135,8 +135,8 @@ public class GUII {
 
     public static void iniciarSesion() {
         JFrame frame = new JFrame("Iniciar sesion");
-        frame.setSize(400, 200);
-        frame.setLayout(new GridLayout(6, 2, 5, 5));
+        frame.setSize(600, 400);
+        frame.setLayout(new GridLayout(3, 2, 5, 5));
         frame.setVisible(true);
 
         JLabel nombre = new JLabel("Nombre");
@@ -168,11 +168,10 @@ public class GUII {
                 int idTe = Integer.parseInt(idT.getText());
                 String nombreTe = nombreT.getText();
 
-
-
                 if(BDConection.inicioSesionBD(idTe,nombreTe)){
                     System.out.println("Se ha iniciado sesion correctamente");
                     GUII.menuEntrada();
+                    frame.setVisible(false);
                 }else{
                     System.out.println("Hay algun dato incorrecto");
                 }
