@@ -107,7 +107,7 @@ public class GUII {
                 if (botonHacerTest.isEnabled()) {
                     frame.setVisible(false);
                 }
-                GUII.generarTest();
+
                 BDConection.BDHacerTest();
             }
         });
