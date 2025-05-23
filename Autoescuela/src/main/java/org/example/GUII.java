@@ -190,8 +190,8 @@ public class GUII {
     }
 
     public static void reservarClase(){
-        JFrame frame = new JFrame("Crear Usuario");
-        frame.setSize(800, 500);
+        JFrame frame = new JFrame("Reservar clase");
+        frame.setSize(400, 250);
         frame.setLayout(new GridLayout(3, 2, 5, 5));
 
         JLabel nombre = new JLabel("Nombre");
@@ -208,6 +208,7 @@ public class GUII {
         frame.add(volver);
         frame.add(enviar);
 
+
         frame.setVisible(true);
 
         volver.addActionListener(new ActionListener() {
@@ -221,7 +222,12 @@ public class GUII {
         enviar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Tu clase ha sido reservada");
+
+
+                String hora = idT.getText();
+
+                System.out.println("Tu clase ha sido reservada a las " + hora + " del dia " + (int)(Math.random()*30) + " de Junio");
+
                 frame.setVisible(false);
                 GUII.menuEntrada();
             }
