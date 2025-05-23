@@ -131,6 +131,16 @@ public class GUII {
                 GUII.iniciarSesion();
             }
         });
+
+        botonReservarClasePractica.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.setVisible(false);
+
+                GUII.reservarClase();
+
+            }
+        });
     }
 
     public static void iniciarSesion() {
@@ -175,6 +185,45 @@ public class GUII {
                 }else{
                     System.out.println("Hay algun dato incorrecto");
                 }
+            }
+        });
+    }
+
+    public static void reservarClase(){
+        JFrame frame = new JFrame("Crear Usuario");
+        frame.setSize(800, 500);
+        frame.setLayout(new GridLayout(3, 2, 5, 5));
+
+        JLabel nombre = new JLabel("Nombre");
+        JTextField nombreT = new JTextField();
+        JLabel id = new JLabel("Hora");
+        JTextField idT = new JTextField();
+        JButton enviar  = new JButton("Enviar");
+        JButton volver = new JButton("Volver");
+
+        frame.add(nombre);
+        frame.add(nombreT);
+        frame.add(id);
+        frame.add(idT);
+        frame.add(volver);
+        frame.add(enviar);
+
+        frame.setVisible(true);
+
+        volver.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.setVisible(false);
+                GUII.menuEntrada();
+            }
+        });
+
+        enviar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Tu clase ha sido reservada");
+                frame.setVisible(false);
+                GUII.menuEntrada();
             }
         });
     }
